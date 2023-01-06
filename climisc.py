@@ -28,7 +28,7 @@ def homepage():
     thread()
 
 def thread():
-    print('this should only be in the test')
+    print('this should only be in NEW TEST')
     pass
 
 def misc():

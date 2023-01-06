@@ -25,10 +25,10 @@ def homepage():
         if len(users) > 9:
             print(f'> {count}: {users}\t - {titles.text.strip()}')
         else:print(f'> {count}: {users}\t\t - {titles.text.strip()}')
-    pass
+    thread()
 
 def thread():
-    
+    print('this should only be in the test')
     pass
 
 def misc():

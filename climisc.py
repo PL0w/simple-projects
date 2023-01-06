@@ -27,16 +27,20 @@ def homepage():
         else:print(f'> {count}: {users}\t\t - {titles.text.strip()}')
     pass
 
+def thread():
+    
+    pass
+
 def misc():
     while True:  
         print('\n~~~~~~CLI MISC~~~~~~\n')
         homepage()
-        print('\n[1]next-page] [2]prev-page] [3]login] [4]call-fbi]\n')
+        print('\n[Z]next-page] [X]prev-page] [C]login] [V]call-fbi]\n')
         match input('Enter thread # to view\n'):
-            case 1:
+            case 'z':
                 pass
-            case 2:
+            case 'x':
                 pass
-            case '3':
+            case 'c':
                 break
 misc()  

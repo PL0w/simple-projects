@@ -7,14 +7,31 @@ from PIL import Image
 from io import BytesIO
 from pathlib import Path
 import os
+import time
+#################
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+#################
+
 
 def getUserInput(): return input('Enter URL: ')
 
 def downloadImage(): pass
 
 # Request URL, return request object
-def requestURL(url): return requests.get(url, timeout=0.001)
+def requestURL(url): 
+    time.sleep(1.5)
+    # return requests.get(url, timeout=5.000)
+    #################################################
+    session = requests.Session()
+    retry = Retry(connect=3, backoff_factor=0.5)
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
 
+    return session.get(url, timeout=3)
+    #################################################
+    
 # Parses HTML doc
 def beautilfulSoupHTML(url):
     soup = BeautifulSoup(url.content, 'html.parser')
@@ -44,5 +61,7 @@ def starter():
     x = getUserInput()              # Get URL
     url = requestURL(x)             # Req URL
     html = beautilfulSoupHTML(url)  # Beautiful HTML
-    images = getImagesHTML(html)
+    image_list = getImagesHTML(html)
+    xxx(image_list)
     
+starter()

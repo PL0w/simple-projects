@@ -27,16 +27,60 @@ def homepage():
         else:print(f'> {count}: {users}\t\t - {titles.text.strip()}')
     return links
 
+
+def checkPrevNext(html, soup):
+    if soup.find(class_="prev_next"):
+        return True
+    else: return False
+
+
+def displayThreadContents(url, soup):
+    soup = BeautifulSoup (url.content, 'html.parser')
+    user = soup.find_all(class_='popupmenu memberaction', limit=31)
+    thread_title = soup.select('title', limit=1)
+    comment = soup.find_all(class_='postcontent restore', limit =31)
+    return user, thread_title, comment
+
+def displayNextPage(html, soup):
+    next_page_text = soup.find(class_='prev_next')
+    next_page_URL = 'https://forum.bodybuilding.com/' + next_page_text.next['href']
+    url = getURL(next_page_URL)
+    author, thread_title, comment = displayThreadContents(url, soup)
+
+    print('\n~~~~~~CLI MISC~~~~~~\n')
+    print(f"\n[TITLE] {thread_title[0].string.strip()}\n[PAGE {next_page_text.name}]")
+    for count, x in enumerate(author, start=1):
+        name = x.text.split()
+        print(f"\n> {name[0]}: {comment[count-1].text.strip()}\n")
+        # print(comment.string)
+    print('\n[Z]next-page] [X]prev-page] [C]back]\n')
+    while True:
+        match input('\n'):
+            case 'z':
+                if checkPrevNext(html ,soup):
+                    displayNextPage(url, soup)
+
+            case 'x':
+                pass
+            case 'c':
+                break
+
+
+def displayPrevPage(html, soup):
+    pass
+
+def getURL(url): return requests.get(url)
+
 def thread(url, urlpos):
     r = requests.get(url[int(urlpos)-1])
     soup = BeautifulSoup(r.content, 'html.parser')
-    query = 10
+    query = 31
     author = soup.find_all(class_='popupmenu memberaction', limit=query)
     thread_title = soup.select('title', limit=1)
     comment = soup.find_all(class_='postcontent restore',limit=query)
 
     print('\n~~~~~~CLI MISC~~~~~~\n')
-    print(f"\n[Title] {thread_title[0].string.strip()}\n[Page 01]")
+    print(f"\n[TITLE] {thread_title[0].string.strip()}\n[PAGE 01]")
     for count, x in enumerate(author, start=1):
         name = x.text.split()
         print(f"\n> {name[0]}: {comment[count-1].text.strip()}\n")
@@ -46,7 +90,9 @@ def thread(url, urlpos):
     while True:
         match input('\n'):
             case 'z':
-                pass
+                 if checkPrevNext(r ,soup):
+                    displayNextPage(r, soup)
+
             case 'x':
                 pass
             case 'c':

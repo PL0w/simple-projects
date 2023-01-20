@@ -1,13 +1,47 @@
+'''
+=================================================
+
+motto: what do
+Author: naaboo
+About: a command line interface version of the MISC section of BB.com
+=================================================
+FEATURES: (active)
+1) Beautiful logo
+2) View entire misc homepage
+3) View entire first page of a thread
+=================================================
+FEATURES: (pending)
+1) Browse all pages of a thread seamlessly
+2) View all of your threads + posts
+3)
+=================================================
+
+'''
+
 import requests
 from bs4 import BeautifulSoup
 import re
 
+version = '0.0.1'
 
-# [print('Thread:',titles.text.strip()) for titles in raw_title]
-# [print(user.text.strip()) for user in author]
+def display_logo():
+    print(f'''
+    
+ $$$$$$\  $$\       $$$$$$\       $$\      $$\ $$$$$$\  $$$$$$\   $$$$$$\  
+$$  __$$\ $$ |      \_$$  _|      $$$\    $$$ |\_$$  _|$$  __$$\ $$  __$$\ 
+$$ /  \__|$$ |        $$ |        $$$$\  $$$$ |  $$ |  $$ /  \__|$$ /  \__|
+$$ |      $$ |        $$ |        $$\$$\$$ $$ |  $$ |  \$$$$$$\  $$ |      
+$$ |      $$ |        $$ |        $$ \$$$  $$ |  $$ |   \____$$\ $$ |      
+$$ |  $$\ $$ |        $$ |        $$ |\$  /$$ |  $$ |  $$\   $$ |$$ |  $$\ 
+\$$$$$$  |$$$$$$$$\ $$$$$$\       $$ | \_/ $$ |$$$$$$\ \$$$$$$  |\$$$$$$  | {version}
+ \______/ \________|\______|      \__|     \__|\______| \______/  \______/ 
+                                                                           
+                                                                           
+                                                                           
 
-        
-# print('\n~~~~~~~~~~~~~~~~~~~')
+    ''')
+
+
 
 def homepage():
     r = requests.get('https://forum.bodybuilding.com/forumdisplay.php?f=19&page=1&order=desc')
@@ -78,7 +112,7 @@ def thread(url, urlpos):
     author = soup.find_all(class_='popupmenu memberaction', limit=query)
     thread_title = soup.select('title', limit=1)
     comment = soup.find_all("blockquote", class_='postcontent restore',limit=query)
-    print('\n~~~~~~CLI MISC~~~~~~\n')
+    display_logo()
     print(f"\n[TITLE] {thread_title[0].string.strip()}\n[PAGE 01]")
     for count, x in enumerate(author, start=1):
         name = x.text.split()
@@ -99,7 +133,8 @@ def thread(url, urlpos):
 
 def misc():
     while True:  
-        print('\n~~~~~~CLI MISC~~~~~~\n')
+        # print('\n~~~~~~CLI MISC~~~~~~\n')
+        display_logo()
         links = homepage()
 
         # Main loop controls

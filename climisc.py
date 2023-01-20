@@ -66,19 +66,18 @@ def displayNextPage(html, soup):
                 break
 
 
+
 def displayPrevPage(html, soup):
     pass
 
 def getURL(url): return requests.get(url)
-
 def thread(url, urlpos):
     r = requests.get(url[int(urlpos)-1])
     soup = BeautifulSoup(r.content, 'html.parser')
     query = 31
     author = soup.find_all(class_='popupmenu memberaction', limit=query)
     thread_title = soup.select('title', limit=1)
-    comment = soup.find_all(class_='postcontent restore',limit=query)
-
+    comment = soup.find_all("blockquote", class_='postcontent restore',limit=query)
     print('\n~~~~~~CLI MISC~~~~~~\n')
     print(f"\n[TITLE] {thread_title[0].string.strip()}\n[PAGE 01]")
     for count, x in enumerate(author, start=1):

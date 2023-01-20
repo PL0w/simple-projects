@@ -67,7 +67,11 @@ def checkPrevNext(html, soup):
         return True
     else: return False
 
-
+def get_threads(html):
+    titles = {}
+    titles_list = []
+    [titles_list.append() for x in titles]
+    
 def displayThreadContents(url, soup):
     soup = BeautifulSoup (url.content, 'html.parser')
     user = soup.find_all(class_='popupmenu memberaction', limit=31)

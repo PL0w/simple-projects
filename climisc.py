@@ -138,14 +138,14 @@ def misc():
         links = homepage()
 
         # Main loop controls
-        print('\n[Z]next-page] [X]prev-page] [C]login] [V]call-fbi]\n')
+        print('\n[Z]refresh] [X]exit] [C]call-fbi]\n')
         match input('Enter thread # to view\n'):
             case 'z':
                 pass
             case 'x':
-                pass
-            case 'c':
                 break
+            case 'c':
+                pass
             case int:
                 thread(links, int)
 misc()  
